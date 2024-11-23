@@ -12,20 +12,16 @@ import kotlinx.coroutines.launch
 class UnitViewModel(private val database: AppDatabase) : ViewModel() {
     private val unitDao = database.unitDao()
 
-    // Состояние списка всех юнитов
     private val _units: StateFlow<List<UnitEntity>> = unitDao.getAllUnits()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     val units: StateFlow<List<UnitEntity>> = _units
 
-    // Состояние выбранной фракции
     private val _selectedFraction = MutableStateFlow<Fraction?>(null)
     val selectedFraction: StateFlow<Fraction?> = _selectedFraction
 
-    // Состояние поискового запроса
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
 
-    // Отфильтрованный список юнитов на основе выбранной фракции и поискового запроса
     val filteredUnits: StateFlow<List<UnitEntity>> = combine(_units, _selectedFraction, _searchQuery) { units, fraction, query ->
         units.filter { unit ->
             val matchesFraction = fraction == null || unit.fraction == fraction
@@ -60,7 +56,6 @@ class UnitViewModel(private val database: AppDatabase) : ViewModel() {
         _searchQuery.value = query
     }
 
-    // Функция для получения юнита по ID
     fun getUnitById(id: Int): Flow<UnitEntity?> {
         return unitDao.getUnitById(id)
     }

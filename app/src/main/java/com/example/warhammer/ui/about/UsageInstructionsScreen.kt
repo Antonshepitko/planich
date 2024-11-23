@@ -1,6 +1,9 @@
 package com.example.warhammer.ui.instructions
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
@@ -34,6 +37,7 @@ fun UsageInstructionsScreen(navController: NavHostController) {
                 .padding(padding)
                 .fillMaxSize()
                 .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
         ) {
             Text(
                 text = "Инструкция по использованию приложения",
